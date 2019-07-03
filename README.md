@@ -8,6 +8,7 @@ Navigation Header inspired by dribble menu design https://dribbble.com/shots/265
 ### Features
 * ActionBar stack menu animation with MotionLayout.
 * Menu element elevation animation with ObjectAnimator.
+* Menu arrow fade in/out animation with ObjectAnimator.
 * StatusBar color animation with ObjectAnimator.
 * Content elements color animation with ObjectAnimator
 * Menu element ripple effect.
