@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Navigation Header</string>
+
+    <string name="header1">SERVICES</string>
+    <string name="header2">AUTO</string>
+    <string name="header3">JOB</string>
+    <string name="header4">REALTY</string>
+</resources>

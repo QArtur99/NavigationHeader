@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+            android:id="@+id/v1"
+            android:backgroundTint="@color/backgroundTintView1"
+            style="@style/motion_scene_expanded"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/v2">
+
+        <TextView
+                android:id="@+id/t1"
+                android:text="@string/header1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@android:color/background_light"
+                android:textSize="20sp"
+                android:fontFamily="@font/open_sans"
+                android:textStyle="bold"/>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+            android:id="@+id/v2"
+            android:backgroundTint="@color/backgroundTintView2"
+            style="@style/motion_scene_expanded"
+            app:layout_constraintTop_toBottomOf="@id/v1"
+            app:layout_constraintBottom_toTopOf="@id/v3">
+
+        <TextView android:text="@string/header2"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center"
+                  android:textColor="@android:color/background_light"
+                  android:textSize="20sp"
+                  android:textStyle="bold"
+                  android:fontFamily="@font/open_sans"/>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+            android:id="@+id/v3"
+            android:backgroundTint="@color/backgroundTintView3"
+            style="@style/motion_scene_expanded"
+            app:layout_constraintTop_toBottomOf="@id/v2"
+            app:layout_constraintBottom_toTopOf="@id/v4">
+
+        <TextView android:text="@string/header3"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center"
+                  android:textColor="@android:color/background_light"
+                  android:textSize="20sp"
+                  android:textStyle="bold"
+                  android:fontFamily="@font/open_sans"/>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+            android:id="@+id/v4"
+            android:backgroundTint="@color/backgroundTintView4"
+            style="@style/motion_scene_expanded"
+            app:layout_constraintTop_toBottomOf="@id/v3"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+        <TextView android:text="@string/header4"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="center"
+                  android:textColor="@android:color/background_light"
+                  android:textSize="20sp"
+                  android:textStyle="bold"
+                  android:fontFamily="@font/open_sans"/>
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+            android:id="@+id/arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0"
+            android:tint="#ffffffff"
+            android:elevation="24dp"
+            android:rotation="90"
+            android:stateListAnimator="@animator/fade_in"
+            app:srcCompat="@drawable/ic_chevron_right_black_24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/v1"/>
+</merge>

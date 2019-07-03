@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:state_activated="true">
+        <set>
+            <objectAnimator
+                    android:valueFrom="0"
+                    android:valueTo="0"
+                    android:valueType="floatType"
+                    android:propertyName="alpha"
+                    android:duration="0" />
+
+            <objectAnimator
+                    android:startOffset="300"
+                    android:valueFrom="0"
+                    android:valueTo="1"
+                    android:valueType="floatType"
+                    android:propertyName="alpha"
+                    android:duration="400" />
+        </set>
+    </item>
+
+    <item
+            android:state_activated="false">
+        <set>
+            <objectAnimator
+                    android:valueFrom="0"
+                    android:valueTo="0"
+                    android:valueType="floatType"
+                    android:propertyName="alpha"
+                    android:duration="0" />
+        </set>
+    </item>
+</selector>
