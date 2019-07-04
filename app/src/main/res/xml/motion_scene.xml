@@ -61,33 +61,33 @@
 
     //expanded state
     <ConstraintSet android:id="@+id/s1">
-        <Constraint android:id="@id/v1"
+        <Constraint android:id="@id/h1"
                     style="@style/motion_scene_expanded2"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/v2">
+                    app:layout_constraintBottom_toTopOf="@id/h2">
             <CustomAttribute
                     app:attributeName="cardElevation"
                     app:customDimension="15dp"/>
         </Constraint>
-        <Constraint android:id="@id/v2"
+        <Constraint android:id="@id/h2"
                     style="@style/motion_scene_expanded2"
-                    app:layout_constraintTop_toBottomOf="@id/v1"
-                    app:layout_constraintBottom_toTopOf="@id/v3">
+                    app:layout_constraintTop_toBottomOf="@id/h1"
+                    app:layout_constraintBottom_toTopOf="@id/h3">
             <CustomAttribute
                     app:attributeName="cardElevation"
                     app:customDimension="14dp"/>
         </Constraint>
-        <Constraint android:id="@id/v3"
+        <Constraint android:id="@id/h3"
                     style="@style/motion_scene_expanded2"
-                    app:layout_constraintTop_toBottomOf="@+id/v2"
-                    app:layout_constraintBottom_toTopOf="@id/v4">
+                    app:layout_constraintTop_toBottomOf="@+id/h2"
+                    app:layout_constraintBottom_toTopOf="@id/h4">
             <CustomAttribute
                     app:attributeName="cardElevation"
                     app:customDimension="13dp"/>
         </Constraint>
-        <Constraint android:id="@id/v4"
+        <Constraint android:id="@id/h4"
                     style="@style/motion_scene_expanded2"
-                    app:layout_constraintTop_toBottomOf="@+id/v3"
+                    app:layout_constraintTop_toBottomOf="@+id/h3"
                     app:layout_constraintBottom_toBottomOf="parent">
             <CustomAttribute
                     app:attributeName="cardElevation"
@@ -97,25 +97,25 @@
 
     //collapsed state with menu 1 at top and change content views color to menu 1 color
     <ConstraintSet android:id="@+id/s2">
-        <Constraint android:id="@id/v1"
+        <Constraint android:id="@id/h1"
                     style="@style/motion_scene_collapsed">
             <CustomAttribute
                     app:attributeName="cardElevation"
                     app:customDimension="15dp"/>
         </Constraint>
-        <Constraint android:id="@id/v2"
+        <Constraint android:id="@id/h2"
                     style="@style/motion_scene_collapsed">
             <CustomAttribute
                     app:attributeName="cardElevation"
                     app:customDimension="0dp"/>
         </Constraint>
-        <Constraint android:id="@id/v3"
+        <Constraint android:id="@id/h3"
                     style="@style/motion_scene_collapsed">
             <CustomAttribute
                     app:attributeName="cardElevation"
                     app:customDimension="0dp"/>
         </Constraint>
-        <Constraint android:id="@id/v4"
+        <Constraint android:id="@id/h4"
                     style="@style/motion_scene_collapsed">
             <CustomAttribute
                     app:attributeName="cardElevation"
@@ -125,25 +125,25 @@
 
     //collapsed state with menu 2 at top and change content views color to menu 2 color
     <ConstraintSet android:id="@+id/s3">
-        <Constraint android:id="@id/v1"
+        <Constraint android:id="@id/h1"
                     style="@style/motion_scene_collapsed">
             <CustomAttribute
                     app:attributeName="cardElevation"
                     app:customDimension="0dp"/>
         </Constraint>
-        <Constraint android:id="@id/v2"
+        <Constraint android:id="@id/h2"
                     style="@style/motion_scene_collapsed">
             <CustomAttribute
                     app:attributeName="cardElevation"
                     app:customDimension="15dp"/>
         </Constraint>
-        <Constraint android:id="@id/v3"
+        <Constraint android:id="@id/h3"
                     style="@style/motion_scene_collapsed">
             <CustomAttribute
                     app:attributeName="cardElevation"
                     app:customDimension="0dp"/>
         </Constraint>
-        <Constraint android:id="@id/v4"
+        <Constraint android:id="@id/h4"
                     style="@style/motion_scene_collapsed">
             <CustomAttribute
                     app:attributeName="cardElevation"
@@ -153,25 +153,25 @@
 
     //collapsed state with menu 3 at top and change content views color to menu 3 color
     <ConstraintSet android:id="@+id/s4">
-        <Constraint android:id="@id/v1"
+        <Constraint android:id="@id/h1"
                     style="@style/motion_scene_collapsed">
             <CustomAttribute
                     app:attributeName="cardElevation"
                     app:customDimension="0dp"/>
         </Constraint>
-        <Constraint android:id="@id/v2"
+        <Constraint android:id="@id/h2"
                     style="@style/motion_scene_collapsed">
             <CustomAttribute
                     app:attributeName="cardElevation"
                     app:customDimension="0dp"/>
         </Constraint>
-        <Constraint android:id="@id/v3"
+        <Constraint android:id="@id/h3"
                     style="@style/motion_scene_collapsed">
             <CustomAttribute
                     app:attributeName="cardElevation"
                     app:customDimension="15dp"/>
         </Constraint>
-        <Constraint android:id="@id/v4"
+        <Constraint android:id="@id/h4"
                     style="@style/motion_scene_collapsed">
             <CustomAttribute
                     app:attributeName="cardElevation"
@@ -181,25 +181,25 @@
 
     //collapsed state with menu 4 at top and change content views color to menu 4 color
     <ConstraintSet android:id="@+id/s5">
-        <Constraint android:id="@id/v1"
+        <Constraint android:id="@id/h1"
                     style="@style/motion_scene_collapsed">
             <CustomAttribute
                     app:attributeName="cardElevation"
                     app:customDimension="0dp"/>
         </Constraint>
-        <Constraint android:id="@id/v2"
+        <Constraint android:id="@id/h2"
                     style="@style/motion_scene_collapsed">
             <CustomAttribute
                     app:attributeName="cardElevation"
                     app:customDimension="0dp"/>
         </Constraint>
-        <Constraint android:id="@id/v3"
+        <Constraint android:id="@id/h3"
                     style="@style/motion_scene_collapsed">
             <CustomAttribute
                     app:attributeName="cardElevation"
                     app:customDimension="0dp"/>
         </Constraint>
-        <Constraint android:id="@id/v4"
+        <Constraint android:id="@id/h4"
                     style="@style/motion_scene_collapsed">
             <CustomAttribute
                     app:attributeName="cardElevation"
