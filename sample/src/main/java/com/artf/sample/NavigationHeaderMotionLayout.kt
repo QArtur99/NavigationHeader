@@ -1,12 +1,19 @@
 package com.artf.sample
 
+import android.animation.ArgbEvaluator
+import android.animation.ObjectAnimator
+import android.app.Activity
 import android.content.Context
+import android.graphics.drawable.ColorDrawable
 import android.util.AttributeSet
 import android.view.View
+import android.view.Window
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.MotionScene
 import androidx.constraintlayout.widget.ConstraintAttribute
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.ContextCompat
+import kotlinx.android.synthetic.main.navigation_arrow.view.*
 
 class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : MotionLayout(context, attrs) {
 
@@ -17,11 +24,16 @@ class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : Mo
         val motionScene = field.get(this) as MotionScene
         motionScene
     }
-    private var headerList = mutableListOf<View>()
+
+    private var headerList = mutableListOf<HeaderView>()
     private var cSetList = mutableListOf<ConstraintSet>()
     private var cSetIdList = mutableListOf<Int>()
     private var transitionList = mutableListOf<MotionScene.Transition>()
     private var isNavigationHeaderCollapsed: Boolean = false
+    private var contentList: List<View>? = mutableListOf()
+    private val colorEvaluator = ArgbEvaluator()
+    private lateinit var activity: Activity
+    private val window: Window by lazy { activity.window }
 
 //    init {
 //        val field = MotionLayout::class.java.getDeclaredField("mScene")
@@ -29,70 +41,123 @@ class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : Mo
 //        val constraintSetMap = field.get(this)
 //    }
 
-    fun addNavigationHeader(header: View) {
-        header.id = View.generateViewId()
-        headerList.add(header)
-        this.addView(header)
+
+    fun addNavigationHeader(activity: Activity, headerList: List<HeaderView>) {
+        this.activity = activity
+
+        headerList.forEach {
+            it.headerView.id = View.generateViewId()
+            this.headerList.add(it)
+            this.addView(it.headerView)
+        }
+    }
+
+    fun addContent(contentList: List<View>?) {
+        this.contentList = contentList
     }
 
     private fun createConstraintSets() {
         val constraintSetExpend = ConstraintSet()
-        constraintSetExpend.isForceId = false
+        val elevation = headerList.size.plus(20)
         for (i in 0 until headerList.size) {
-            val constrain = constraintSetExpend.getParameters(headerList[i].id)
-            constrain.layout.mWidth = 0
-            constrain.layout.widthMin = -1
-            constrain.layout.widthMax = -1
-            constrain.layout.mHeight = 100
-            constrain.layout.heightMin = -1
-            constrain.layout.heightMax = -1
-            constrain.layout.topMargin = 0
-            constrain.layout.verticalWeight = 0f
-            constrain.layout.bottomToBottom = ConstraintSet.UNSET
-            constrain.layout.topToTop = ConstraintSet.PARENT_ID
-            constrain.layout.endToEnd = ConstraintSet.PARENT_ID
-            constrain.layout.startToStart = ConstraintSet.PARENT_ID
-            constrain.layout.mApply = true
-
-            val attribute = ConstraintAttribute("CardElevation", ConstraintAttribute.AttributeType.DIMENSION_TYPE)
-            attribute.setFloatValue(28.0f)
-            constrain.mCustomConstraints["CardElevation"] = attribute
-
-            constrain.motion.mApply = true
-            constrain.transform.mApply = true
-            constrain.propertySet.alpha = 1.0f
-            constrain.propertySet.mApply = true
+            when (i) {
+                0 -> {
+                    createConstraint(
+                        constraintSetExpend,
+                        headerList[i].headerView.id,
+                        0,
+                        0,
+                        ConstraintSet.UNSET,
+                        ConstraintSet.PARENT_ID,
+                        headerList[i + 1].headerView.id,
+                        -1,
+                        1.0f,
+                        elevation.minus(i).toFloat()
+                    )
+                }
+                in 1 until headerList.size - 1 -> {
+                    createConstraint(
+                        constraintSetExpend,
+                        headerList[i].headerView.id,
+                        0,
+                        0,
+                        ConstraintSet.UNSET,
+                        ConstraintSet.UNSET,
+                        headerList[i + 1].headerView.id,
+                        headerList[i - 1].headerView.id,
+                        1.0f,
+                        elevation.minus(i).toFloat()
+                    )
+                }
+                headerList.size - 1 -> {
+                    createConstraint(
+                        constraintSetExpend,
+                        headerList[i].headerView.id,
+                        0,
+                        0,
+                        ConstraintSet.PARENT_ID,
+                        ConstraintSet.UNSET,
+                        ConstraintSet.UNSET,
+                        headerList[i - 1].headerView.id,
+                        1.0f,
+                        elevation.minus(i).toFloat()
+                    )
+                }
+            }
         }
         cSetList.add(constraintSetExpend)
 
-        val constraintSetCollapse = ConstraintSet()
-        constraintSetCollapse.isForceId = false
-        for (i in 0 until headerList.size) {
-            val constrain = constraintSetCollapse.getParameters(headerList[i].id)
-            constrain.layout.mWidth = 0
-            constrain.layout.widthMin = -1
-            constrain.layout.widthMax = -1
-            constrain.layout.mHeight = 200
-            constrain.layout.heightMin = -1
-            constrain.layout.heightMax = -1
-            constrain.layout.topMargin = 0
-            constrain.layout.verticalWeight = 0f
-            constrain.layout.bottomToBottom = ConstraintSet.UNSET
-            constrain.layout.topToTop = ConstraintSet.PARENT_ID
-            constrain.layout.endToEnd = ConstraintSet.PARENT_ID
-            constrain.layout.startToStart = ConstraintSet.PARENT_ID
-            constrain.layout.mApply = true
+        for (k in 0 until headerList.size) {
+            val constraintSetCollapse = ConstraintSet()
 
-            val attribute = ConstraintAttribute("CardElevation", ConstraintAttribute.AttributeType.DIMENSION_TYPE)
-            attribute.setFloatValue(0.0f)
-            constrain.mCustomConstraints["CardElevation"] = attribute
-
-            constrain.motion.mApply = true
-            constrain.transform.mApply = true
-            constrain.propertySet.alpha = 1.0f
-            constrain.propertySet.mApply = true
+            for (i in 0 until headerList.size) {
+                when (i) {
+                    0 -> {
+                        createConstraint(
+                            constraintSetCollapse,
+                            headerList[i].headerView.id,
+                            0,
+                            getHeight(k, i),
+                            ConstraintSet.UNSET,
+                            ConstraintSet.PARENT_ID,
+                            ConstraintSet.UNSET,
+                            ConstraintSet.UNSET,
+                            -1.0f,
+                            getElevation(k, i)
+                        )
+                    }
+                    in 1 until headerList.size - 1 -> {
+                        createConstraint(
+                            constraintSetCollapse,
+                            headerList[i].headerView.id,
+                            0,
+                            getHeight(k, i),
+                            ConstraintSet.UNSET,
+                            ConstraintSet.PARENT_ID,
+                            ConstraintSet.UNSET,
+                            ConstraintSet.UNSET,
+                            -1.0f,
+                            getElevation(k, i)
+                        )
+                    }
+                    headerList.size - 1 -> {
+                        createConstraint(
+                            constraintSetCollapse,
+                            headerList[i].headerView.id,
+                            0,
+                            getHeight(k, i),
+                            ConstraintSet.UNSET,
+                            ConstraintSet.PARENT_ID,
+                            ConstraintSet.UNSET,
+                            ConstraintSet.UNSET,
+                            -1.0f,
+                            getElevation(k, i)
+                        )
+                    }
+                }
+            }
+            cSetList.add(constraintSetCollapse)
         }
-        cSetList.add(constraintSetCollapse)
 
         cSetList.forEach {
             val constraintSetId = View.generateViewId()
@@ -101,12 +166,54 @@ class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : Mo
         }
     }
 
+    fun getHeight(k: Int, i: Int): Int {
+        return if (k == i) 100 else 100
+    }
+
+    fun getElevation(k: Int, i: Int): Float {
+        return if (k == i) 6f else 0f
+    }
+
+    private fun createConstraint(
+        constraintSetExpend: ConstraintSet,
+        viewId: Int,
+        width: Int,
+        height: Int,
+        bottomToBottom: Int,
+        topToTop: Int,
+        bottomToTop: Int,
+        topToBottom: Int,
+        verticalWeight: Float,
+        elevation: Float
+    ) {
+        val constrain = constraintSetExpend.getParameters(viewId)
+        constrain.layout.mWidth = width
+        constrain.layout.mHeight = height
+        constrain.layout.bottomToBottom = bottomToBottom
+        constrain.layout.topToTop = topToTop
+        constrain.layout.bottomToTop = bottomToTop
+        constrain.layout.topToBottom = topToBottom
+        constrain.layout.verticalWeight = verticalWeight
+        constrain.layout.startToStart = ConstraintSet.PARENT_ID
+        constrain.layout.endToEnd = ConstraintSet.PARENT_ID
+        constrain.layout.mApply = true
+
+        val attribute = ConstraintAttribute("CardElevation", ConstraintAttribute.AttributeType.DIMENSION_TYPE)
+        attribute.setFloatValue(elevation)
+        constrain.mCustomConstraints["CardElevation"] = attribute
+
+        constrain.motion.mApply = true
+        constrain.transform.mApply = true
+        constrain.propertySet.alpha = 1.0f
+        constrain.propertySet.mApply = true
+    }
+
     private fun createTransitions() {
         for (i in 0 until cSetIdList.size - 1) {
             val transition =
-                MotionScene.Transition(View.generateViewId(), motionScene, cSetIdList[i], cSetIdList[i + 1])
+                MotionScene.Transition(View.generateViewId(), motionScene, cSetIdList[0], cSetIdList[i + 1])
             val transitionReturn =
-                MotionScene.Transition(View.generateViewId(), motionScene, cSetIdList[i + 1], cSetIdList[i])
+                MotionScene.Transition(View.generateViewId(), motionScene, cSetIdList[i + 1], cSetIdList[0])
             transition.duration = 700
             transitionReturn.duration = 700
             motionScene.addTransition(transition)
@@ -120,12 +227,13 @@ class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : Mo
         createConstraintSets()
         createTransitions()
         setHeaderListeners()
-        //this.setScene(motionScene)
+        //this.setTransition(cSetIdList[1], cSetIdList[0])
     }
 
-    private fun setHeaderListeners(){
-        for(i in 0 until headerList.size){
-            setHeaderListener(headerList[i], cSetIdList[i+1], cSetIdList[0])
+    private fun setHeaderListeners() {
+        for (i in 0 until headerList.size) {
+            val (header, statusBarColor, contentColor) = headerList[i]
+            setHeaderListener(header, cSetIdList[i + 1], cSetIdList[0], statusBarColor, contentColor)
         }
     }
 
@@ -139,14 +247,42 @@ class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : Mo
         navigationHeader.setOnClickListener {
             if (isNavigationHeaderCollapsed) {
                 this.setTransition(outAnim, inAnim)
-                //expand()
+                expand()
             } else {
                 this.setTransition(inAnim, outAnim)
-                //collapse(statusBarColor, contentColor)
+                collapse(statusBarColor, contentColor)
             }
             this.transitionToEnd()
             isNavigationHeaderCollapsed = !isNavigationHeaderCollapsed
         }
+    }
+
+    private fun collapse(statusBarColor: Int?, contentColor: Int?) {
+        arrow?.isActivated = true
+        statusBarColor?.let {
+            animateStatusBar(window, "statusBarColor", window.statusBarColor, statusBarColor)
+        }
+
+        contentColor?.let {
+            contentList?.let {
+                it.forEach { view ->
+                    val colorDrawable = view.background as ColorDrawable
+                    animateStatusBar(view, "backgroundColor", colorDrawable.color, contentColor)
+                }
+            }
+        }
+    }
+
+    private fun expand() {
+        arrow?.isActivated = false
+        animateStatusBar(window, "statusBarColor", window.statusBarColor, R.color.statusBar1)
+    }
+
+    private fun animateStatusBar(target: Any, propertyName: String, fromColor: Int, color: Int) {
+        val objectAnimator = ObjectAnimator.ofObject(target, propertyName, colorEvaluator, 0, 0)
+        objectAnimator.setObjectValues(fromColor, ContextCompat.getColor(this.context, color))
+        objectAnimator.duration = 700
+        objectAnimator.start()
     }
 }
 

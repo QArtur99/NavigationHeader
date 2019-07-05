@@ -1,63 +1,51 @@
 package com.artf.sample
 
-import android.animation.ArgbEvaluator
-import android.animation.ObjectAnimator
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 
 class MainActivity : AppCompatActivity() {
 
-    private val motionLayout by lazy { findViewById<NavigationHeaderMotionLayout>(R.id.motion_container) }
-    private val colorEvaluator = ArgbEvaluator()
-    private var contentList = mutableListOf<View>()
+    private val navigationHeader by lazy { findViewById<NavigationHeaderMotionLayout>(R.id.navigationHeader) }
     private var arrow: View? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        window
 
         val layoutInflater = LayoutInflater.from(this)
-        val navigationHeader = layoutInflater.inflate(R.layout.navigation_header, null)
-        motionLayout.addNavigationHeader(navigationHeader.rootView.findViewById(R.id.header))
-        motionLayout.buildMotionScene()
+        val headerList = mutableListOf<HeaderView>()
+        val titleList = mutableListOf<Header>().apply {
+            add(Header("SERVICES", R.color.header1, R.color.statusBar1, R.color.content1))
+            add(Header("AUTO", R.color.header2, R.color.statusBar2, R.color.content2))
+            add(Header("JOB", R.color.header3, R.color.statusBar3, R.color.content3))
+            add(Header("REALITY", R.color.header4, R.color.statusBar4, R.color.content4))
+        }
 
-        arrow = findViewById<View>(R.id.arrow)
+        titleList.forEach {
+            val headerView = layoutInflater.inflate(R.layout.header, null)
+            headerView.findViewById<TextView>(R.id.title).text = it.title
+            headerView.background.clearColorFilter()
+            headerView.setBackgroundColor(ContextCompat.getColor(this, it.headerColor!!))
 
-//        setHeaderListener(v1, R.id.s2, R.id.s1, R.color.statusBar1, R.color.content1)
-//        setHeaderListener(v2, R.id.s3, R.id.s1, R.color.statusBar2, R.color.content2)
-//        setHeaderListener(v3, R.id.s4, R.id.s1, R.color.statusBar3, R.color.content3)
-//        setHeaderListener(v4, R.id.s5, R.id.s1, R.color.statusBar4, R.color.content4)
+            headerList.add(HeaderView(headerView, it.statusBarColor, it.contentColor))
+        }
 
-        contentList.apply {
+        val contentList = mutableListOf<View>().apply {
             add(findViewById(R.id.c1))
             add(findViewById(R.id.c2))
             add(findViewById(R.id.c3))
             add(findViewById(R.id.c4))
         }
-    }
 
-    private fun collapse(statusBarColor: Int, contentColor: Int) {
-        arrow?.isActivated = true
-        animateStatusBar(window, "statusBarColor", window.statusBarColor, statusBarColor)
-        for (view in contentList) {
-            val colorDrawable = view.background as ColorDrawable
-            animateStatusBar(view, "backgroundColor", colorDrawable.color, contentColor)
-        }
-    }
+        navigationHeader.addNavigationHeader(this, headerList)
+        navigationHeader.addContent(contentList)
+        navigationHeader.buildMotionScene()
 
-    private fun expand() {
-        arrow?.isActivated = false
-        animateStatusBar(window, "statusBarColor", window.statusBarColor, R.color.statusBar1)
-    }
-
-    private fun animateStatusBar(target: Any, propertyName: String, fromColor: Int, color: Int) {
-        val objectAnimator = ObjectAnimator.ofObject(target, propertyName, colorEvaluator, 0, 0)
-        objectAnimator.setObjectValues(fromColor, ContextCompat.getColor(this, color))
-        objectAnimator.duration = 700
-        objectAnimator.start()
+        arrow = findViewById<View>(R.id.arrow)
     }
 }

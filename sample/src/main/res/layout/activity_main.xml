@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.artf.sample.NavigationHeaderMotionLayout
+<androidx.constraintlayout.widget.ConstraintLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -21,4 +21,13 @@
 
     <include layout="@layout/content"/>
 
-</com.artf.sample.NavigationHeaderMotionLayout>
+    <com.artf.sample.NavigationHeaderMotionLayout
+            android:id="@+id/navigationHeader"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".MainActivity"
+            app:layoutDescription="@xml/motion_scene">
+
+    </com.artf.sample.NavigationHeaderMotionLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

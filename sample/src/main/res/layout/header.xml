@@ -2,11 +2,12 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                                    xmlns:app="http://schemas.android.com/apk/res-auto"
                                    android:id="@+id/header"
-                                   android:backgroundTint="@color/backgroundTintView1"
-                                   style="@style/motion_scene_expanded">
+                                   style="@style/motion_scene_expanded"
+                                   app:layout_constraintTop_toTopOf="parent"
+                                   app:layout_constraintBottom_toBottomOf="parent">
 
     <TextView
-            android:id="@+id/t1"
+            android:id="@+id/title"
             android:text="@string/header1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
