@@ -5,10 +5,10 @@
     <color name="colorAccent">#D81B60</color>
     <color name="transparent">#00000000</color>
 
-    <color name="backgroundTintView1">#D77FFA</color>
-    <color name="backgroundTintView2">#FF7062</color>
-    <color name="backgroundTintView3">#95C323</color>
-    <color name="backgroundTintView4">#11A2FD</color>
+    <color name="header1">#D77FFA</color>
+    <color name="header2">#FF7062</color>
+    <color name="header3">#95C323</color>
+    <color name="header4">#11A2FD</color>
 
     <color name="statusBar1">#9C27B0</color>
     <color name="statusBar2">#D32F2F</color>
