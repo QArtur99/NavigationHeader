@@ -1,4 +1,4 @@
-package com.artf.navigationheader
+package com.artf.exampleMotionLayout
 
 import androidx.test.InstrumentationRegistry
 import androidx.test.runner.AndroidJUnit4

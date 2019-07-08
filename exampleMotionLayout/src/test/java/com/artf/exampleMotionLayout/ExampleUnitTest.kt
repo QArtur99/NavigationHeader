@@ -1,4 +1,4 @@
-package com.artf.navigationheader
+package com.artf.exampleMotionLayout
 
 import org.junit.Test
 

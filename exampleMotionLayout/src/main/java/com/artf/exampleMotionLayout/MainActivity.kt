@@ -1,4 +1,4 @@
-package com.artf.navigationheader
+package com.artf.exampleMotionLayout
 
 import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
@@ -8,6 +8,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.core.content.ContextCompat
+import com.artf.navigationheader.R
 
 class MainActivity : AppCompatActivity() {
 

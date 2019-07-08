@@ -1,5 +1,5 @@
 # Navigation Header
-Navigation Header inspired by dribble menu design https://dribbble.com/shots/2653519-Menu built with MotionLayout and ObjectAnimator. This project is a developed version of [MotionLayoutMenuA](https://github.com/faob-dev/MotionLayoutMenuA).
+Navigation Header inspired by dribble menu design https://dribbble.com/shots/2653519-Menu built with MotionLayout and ObjectAnimator.
 
 ### Screenshots
 ![Vertical](https://user-images.githubusercontent.com/25232443/60589616-374f9e80-9d9a-11e9-81a9-a171b8e8cf7d.gif)
