@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="NavigationHeaderLayout">
+        <attr name="headerHeight" format="dimension"/>
+        <attr name="baseElevation" format="dimension"/>
+        <attr name="animationDuration" format="integer"/>
+    </declare-styleable>
+</resources>

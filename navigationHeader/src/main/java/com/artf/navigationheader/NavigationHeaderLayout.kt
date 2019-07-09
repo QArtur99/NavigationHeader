@@ -16,7 +16,13 @@ import androidx.constraintlayout.widget.ConstraintAttribute
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 
-class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : MotionLayout(context, attrs) {
+
+class NavigationHeaderLayout @JvmOverloads constructor(
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyleAttr: Int = 0
+) :
+    MotionLayout(context, attrs, defStyleAttr) {
 
     private val motionScene by lazy {
         val field = MotionLayout::class.java.getDeclaredField("mScene")
@@ -33,14 +39,31 @@ class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : Mo
     private val colorEvaluator = ArgbEvaluator()
     private lateinit var activity: Activity
     private val window: Window by lazy { activity.window }
+    private var expandListener: ((headerView: View) -> Unit)? = null
+    private var collapseListener: ((headerView: View) -> Unit)? = null
+    private var headerHeight = 0f
+    private var baseElevation = DEFAULT_ELEVATION
+    private var animDuration = DEFAULT_DURATION
     var arrow: ImageView
-    var expandListener: ((headerView: View) -> Unit)? = null
-    var collapseListener: ((headerView: View) -> Unit)? = null
+
+    companion object {
+        val DEFAULT_ELEVATION = 6.0f.toPx()
+        const val DEFAULT_DURATION = 500
+    }
 
     init {
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.NavigationHeaderLayout)
+        headerHeight = typedArray.getDimension(R.styleable.NavigationHeaderLayout_headerHeight, 0f)
+        baseElevation = typedArray.getDimension(R.styleable.NavigationHeaderLayout_baseElevation, DEFAULT_ELEVATION)
+        animDuration = typedArray.getInteger(R.styleable.NavigationHeaderLayout_animationDuration, DEFAULT_DURATION)
+
+        if (headerHeight == 0f) throw Exception("you should provide headerHeight in xml file")
+
+
         val layoutInflater = LayoutInflater.from(this.context)
         arrow = layoutInflater.inflate(R.layout.navigation_arrow, this, false) as ImageView
         this.addView(arrow)
+        typedArray.recycle()
     }
 
     fun setOnExpandListener(listener: (headerView: View) -> Unit) {
@@ -81,14 +104,14 @@ class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : Mo
                 ConstraintSet.UNSET,
                 ConstraintSet.UNSET,
                 -1f,
-                30f
+                headerList.size.plus(baseElevation.toDp()).inc()
             )
         }
     }
 
     private fun createConstraintSets() {
         val constraintSetExpend = ConstraintSet()
-        val elevation = headerList.size.plus(6)
+        val elevation = headerList.size.plus(baseElevation.toDp())
         for (i in 0 until headerList.size) {
             when (i) {
                 0 -> {
@@ -102,7 +125,7 @@ class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : Mo
                         headerList[i + 1].headerView.id,
                         -1,
                         1.0f,
-                        elevation.minus(i).toFloat()
+                        elevation.minus(i)
                     )
                 }
                 in 1 until headerList.size - 1 -> {
@@ -116,7 +139,7 @@ class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : Mo
                         headerList[i + 1].headerView.id,
                         headerList[i - 1].headerView.id,
                         1.0f,
-                        elevation.minus(i).toFloat()
+                        elevation.minus(i)
                     )
                 }
                 headerList.size - 1 -> {
@@ -130,7 +153,7 @@ class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : Mo
                         ConstraintSet.UNSET,
                         headerList[i - 1].headerView.id,
                         1.0f,
-                        elevation.minus(i).toFloat()
+                        elevation.minus(i)
                     )
                 }
             }
@@ -197,12 +220,12 @@ class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : Mo
         }
     }
 
-    fun getHeight(k: Int, i: Int): Int {
-        return if (k == i) 100 else 100
+    private fun getHeight(k: Int, i: Int): Int {
+        return if (k == i) headerHeight.toInt() else headerHeight.toInt()
     }
 
-    fun getElevation(k: Int, i: Int): Float {
-        return if (k == i) 6f else 0f
+    private fun getElevation(k: Int, i: Int): Float {
+        return if (k == i) baseElevation.toDp() else 0f
     }
 
     private fun createConstraint(
@@ -230,7 +253,7 @@ class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : Mo
         constrain.layout.mApply = true
 
         val attribute = ConstraintAttribute("CardElevation", ConstraintAttribute.AttributeType.DIMENSION_TYPE)
-        attribute.setFloatValue(elevation)
+        attribute.setFloatValue(elevation.toPx())
         constrain.mCustomConstraints["CardElevation"] = attribute
 
         constrain.motion.mApply = true
@@ -245,8 +268,8 @@ class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : Mo
                 MotionScene.Transition(View.generateViewId(), motionScene, cSetIdList[0], cSetIdList[i + 1])
             val transitionReturn =
                 MotionScene.Transition(View.generateViewId(), motionScene, cSetIdList[i + 1], cSetIdList[0])
-            transition.duration = 700
-            transitionReturn.duration = 700
+            transition.duration = animDuration
+            transitionReturn.duration = animDuration
             motionScene.addTransition(transition)
             motionScene.addTransition(transitionReturn)
         }
@@ -254,7 +277,7 @@ class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : Mo
         this.invalidate()
     }
 
-    fun buildMotionScene(headerList: List<HeaderView>) {
+    private fun buildMotionScene(headerList: List<HeaderView>) {
         addNavigationHeader(headerList)
         createConstraintSets()
         createTransitions()
@@ -316,7 +339,7 @@ class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : Mo
     private fun animateStatusBar(target: Any, propertyName: String, fromColor: Int, color: Int) {
         val objectAnimator = ObjectAnimator.ofObject(target, propertyName, colorEvaluator, 0, 0)
         objectAnimator.setObjectValues(fromColor, ContextCompat.getColor(this.context, color))
-        objectAnimator.duration = 700
+        objectAnimator.duration = animDuration.toLong()
         objectAnimator.start()
     }
 }
