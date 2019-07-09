@@ -7,17 +7,26 @@
 
     <color name="header1">#D77FFA</color>
     <color name="header2">#FF7062</color>
-    <color name="header3">#95C323</color>
-    <color name="header4">#11A2FD</color>
+    <color name="header3">#FFAB40</color>
+    <color name="header4">#95C323</color>
+    <color name="header5">#11A2FD</color>
+    <color name="header6">#536DFE</color>
+    <color name="header7">#7C4DFF</color>
 
-    <color name="statusBar1">#9C27B0</color>
+    <color name="statusBar1">#BA68C8</color>
     <color name="statusBar2">#D32F2F</color>
-    <color name="statusBar3">#689F38</color>
-    <color name="statusBar4">#1976D2</color>
+    <color name="statusBar3">#F57C00</color>
+    <color name="statusBar4">#689F38</color>
+    <color name="statusBar5">#1976D2</color>
+    <color name="statusBar6">#303F9F</color>
+    <color name="statusBar7">#512DA8</color>
 
     <color name="content0">#FCF4BD</color>
     <color name="content1">#f1d2fd</color>
     <color name="content2">#ffd7d4</color>
-    <color name="content3">#bfc9a7</color>
-    <color name="content4">#d0eeff</color>
+    <color name="content3">#FFE0B2</color>
+    <color name="content4">#bfc9a7</color>
+    <color name="content5">#d0eeff</color>
+    <color name="content6">#C5CAE9</color>
+    <color name="content7">#D1C4E9</color>
 </resources>

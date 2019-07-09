@@ -2,7 +2,10 @@
     <string name="app_name">Navigation Header</string>
 
     <string name="header1">SERVICES</string>
-    <string name="header2">AUTO</string>
-    <string name="header3">JOB</string>
-    <string name="header4">REALTY</string>
+    <string name="header2">PEOPLE</string>
+    <string name="header3">AUTO</string>
+    <string name="header4">SPORT</string>
+    <string name="header5">JOB</string>
+    <string name="header6">ENTERTAINMENT</string>
+    <string name="header7">REALTY</string>
 </resources>
