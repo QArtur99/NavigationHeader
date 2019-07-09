@@ -9,32 +9,4 @@
         <item name="android:statusBarColor">@color/statusBar1</item>
     </style>
 
-
-    <style name="motion_scene_collapsed" parent="Theme.AppCompat.Light">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">?attr/actionBarSize</item>
-        <item name="android:layout_marginTop">0dp</item>
-        <item name="layout_constraintEnd_toEndOf">parent</item>
-        <item name="layout_constraintStart_toStartOf">parent</item>
-        <item name="layout_constraintTop_toTopOf">parent</item>
-    </style>
-
-    <style name="motion_scene_expanded" parent="Theme.AppCompat.Light">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">0dp</item>
-        <item name="android:foreground">?attr/selectableItemBackground</item>
-        <item name="android:stateListAnimator">@animator/raise</item>
-        <item name="layout_constraintVertical_weight">@dimen/weight</item>
-        <item name="layout_constraintEnd_toEndOf">parent</item>
-        <item name="layout_constraintStart_toStartOf">parent</item>
-    </style>
-
-    <style name="motion_scene_expanded2" parent="Theme.AppCompat.Light">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">0dp</item>
-        <item name="layout_constraintVertical_weight">@dimen/weight</item>
-        <item name="layout_constraintEnd_toEndOf">parent</item>
-        <item name="layout_constraintStart_toStartOf">parent</item>
-    </style>
-
 </resources>

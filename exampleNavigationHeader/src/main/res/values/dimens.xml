@@ -1,11 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="menu_expanded_height">0dp</dimen>
-    <dimen name="menu_collapsed_height">?attr/actionBarSize</dimen>
-
-    <dimen name="percentageWeight">0.25</dimen>
-    <dimen name="weight">1.0</dimen>
     <dimen name="touch_raise">30</dimen>
-    <item name="match_parent" format="integer" type="dimen">-1</item>
-    <item name="wrap_content" format="integer" type="dimen">-2</item>
 </resources>

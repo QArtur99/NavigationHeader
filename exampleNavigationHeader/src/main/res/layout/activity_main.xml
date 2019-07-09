@@ -9,25 +9,16 @@
         tools:context=".MainActivity"
         app:layoutDescription="@xml/motion_scene">
 
-    <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="0dp"
-            android:background="@color/transparent"
-            android:layout_height="?attr/actionBarSize"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-    </androidx.appcompat.widget.Toolbar>
-
     <include layout="@layout/content"/>
 
-    <com.artf.navigationheader.NavigationHeaderMotionLayout
+    <com.artf.navigationheader.NavigationHeaderLayout
             android:id="@+id/navigationHeader"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".MainActivity"
-            app:layoutDescription="@xml/motion_scene">
-
-    </com.artf.navigationheader.NavigationHeaderMotionLayout>
+            android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
+            app:headerHeight="?attr/actionBarSize"
+            app:baseElevation="6dp"
+            app:animationDuration="500"
+            app:layoutDescription="@xml/motion_scene"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
