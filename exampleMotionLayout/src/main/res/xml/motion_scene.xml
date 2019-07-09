@@ -8,55 +8,55 @@
             app:constraintSetStart="@id/s1"
             app:constraintSetEnd="@id/s2"
             app:motionInterpolator="easeOut"
-            app:duration="700">
+            app:duration="600">
     </Transition>
 
     //transition back to expanded state
     <Transition
             app:constraintSetStart="@id/s2"
             app:constraintSetEnd="@id/s1"
-            app:duration="700">
+            app:duration="600">
     </Transition>
 
     //transition to collapsed state with menu 2 at top
     <Transition
             app:constraintSetStart="@id/s1"
             app:constraintSetEnd="@id/s3"
-            app:duration="700">
+            app:duration="600">
     </Transition>
 
     //transition back to expanded state
     <Transition
             app:constraintSetStart="@id/s3"
             app:constraintSetEnd="@id/s1"
-            app:duration="700">
+            app:duration="600">
     </Transition>
 
     //transition to collapsed state with menu 3 at top
     <Transition
             app:constraintSetStart="@id/s1"
             app:constraintSetEnd="@id/s4"
-            app:duration="700">
+            app:duration="600">
     </Transition>
     //transition back to expanded state
     <Transition
             app:constraintSetStart="@id/s4"
             app:constraintSetEnd="@id/s1"
-            app:duration="700">
+            app:duration="600">
     </Transition>
 
     //transition to collapsed state with menu 4 at top
     <Transition
             app:constraintSetStart="@id/s1"
             app:constraintSetEnd="@id/s5"
-            app:duration="700">
+            app:duration="600">
     </Transition>
 
     //transition back to expanded state
     <Transition
             app:constraintSetStart="@id/s5"
             app:constraintSetEnd="@id/s1"
-            app:duration="700">
+            app:duration="600">
     </Transition>
 
     //expanded state
