@@ -5,6 +5,8 @@ import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
+import android.os.Parcelable
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -30,8 +32,8 @@ class NavigationHeaderLayout @JvmOverloads constructor(
         val motionScene = field.get(this) as MotionScene
         motionScene
     }
-
     private var headerList = mutableListOf<HeaderView>()
+
     private var cSetList = mutableListOf<ConstraintSet>()
     private var cSetIdList = mutableListOf<Int>()
     private var isNavigationHeaderCollapsed: Boolean = false
@@ -41,6 +43,7 @@ class NavigationHeaderLayout @JvmOverloads constructor(
     private val window: Window by lazy { activity.window }
     private var expandListener: ((headerView: View) -> Unit)? = null
     private var collapseListener: ((headerView: View) -> Unit)? = null
+    private var selectedHeaderNo: Int? = null
     private var headerHeight = 0f
     private var baseElevation = DEFAULT_ELEVATION
     private var animDuration = DEFAULT_DURATION
@@ -49,6 +52,9 @@ class NavigationHeaderLayout @JvmOverloads constructor(
     companion object {
         val DEFAULT_ELEVATION = 6.0f.toPx()
         const val DEFAULT_DURATION = 500
+        const val OLD_PARCEL = "oldParcelKey"
+        const val SELECTED_HEADER = "selectedHeaderKey"
+        const val HEADER_STATE = "headerStateKey"
     }
 
     init {
@@ -286,8 +292,8 @@ class NavigationHeaderLayout @JvmOverloads constructor(
 
     private fun setHeaderListeners() {
         for (i in 0 until headerList.size) {
-            val (header, headerColor, statusBarColor, contentColor) = headerList[i]
-            setHeaderListener(header, cSetIdList[i + 1], cSetIdList[0], statusBarColor, contentColor)
+            val (header, _, statusBarColor, contentColor) = headerList[i]
+            setHeaderListener(header, cSetIdList[i + 1], cSetIdList[0], statusBarColor, contentColor, i)
         }
     }
 
@@ -296,7 +302,8 @@ class NavigationHeaderLayout @JvmOverloads constructor(
         outAnim: Int,
         inAnim: Int,
         statusBarColor: Int? = null,
-        contentColor: Int? = null
+        contentColor: Int? = null,
+        headerNo: Int
     ) {
         navigationHeader.setOnClickListener {
             if (isNavigationHeaderCollapsed) {
@@ -308,10 +315,11 @@ class NavigationHeaderLayout @JvmOverloads constructor(
             }
             this.transitionToEnd()
             isNavigationHeaderCollapsed = !isNavigationHeaderCollapsed
+            selectedHeaderNo = headerNo
         }
     }
 
-    private fun collapse(view: View, statusBarColor: Int?, contentColor: Int?) {
+    private fun collapse(view: View?, statusBarColor: Int?, contentColor: Int?) {
         arrow.isActivated = true
         statusBarColor?.let {
             animateStatusBar(window, "statusBarColor", window.statusBarColor, statusBarColor)
@@ -325,7 +333,9 @@ class NavigationHeaderLayout @JvmOverloads constructor(
                 }
             }
         }
-        collapseListener?.let { it(view) }
+        view?.let { thisView ->
+            collapseListener?.let { it(thisView) }
+        }
     }
 
     private fun expand(view: View) {
@@ -341,5 +351,36 @@ class NavigationHeaderLayout @JvmOverloads constructor(
         objectAnimator.setObjectValues(fromColor, ContextCompat.getColor(this.context, color))
         objectAnimator.duration = animDuration.toLong()
         objectAnimator.start()
+    }
+
+
+    override fun onSaveInstanceState(): Parcelable? {
+        return Bundle().apply {
+            val p = super.onSaveInstanceState()
+            putParcelable(OLD_PARCEL, p)
+            putSerializable(SELECTED_HEADER, selectedHeaderNo)
+            putSerializable(HEADER_STATE, isNavigationHeaderCollapsed)
+        }
+    }
+
+    override fun onRestoreInstanceState(state: Parcelable?) {
+        val bundle = state as Bundle
+        bundle.apply {
+            super.onRestoreInstanceState(bundle.getParcelable(OLD_PARCEL))
+            this@NavigationHeaderLayout.selectedHeaderNo = getSerializable(SELECTED_HEADER) as Int?
+            this@NavigationHeaderLayout.isNavigationHeaderCollapsed = getSerializable(HEADER_STATE) as Boolean
+        }
+
+        if (isNavigationHeaderCollapsed) {
+            selectedHeaderNo?.let { i ->
+                val (_, _, statusBarColor, contentColor) = headerList[i]
+                this.setTransition(cSetIdList[i + 1], cSetIdList[0])
+                val prevAnimDuration = animDuration
+                animDuration = 0
+                collapse(null, statusBarColor, contentColor)
+                this.transitionToStart()
+                animDuration = prevAnimDuration
+            }
+        }
     }
 }
