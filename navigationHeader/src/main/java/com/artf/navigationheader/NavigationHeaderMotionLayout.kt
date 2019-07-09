@@ -34,11 +34,21 @@ class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : Mo
     private lateinit var activity: Activity
     private val window: Window by lazy { activity.window }
     var arrow: ImageView
+    var expandListener: ((headerView: View) -> Unit)? = null
+    var collapseListener: ((headerView: View) -> Unit)? = null
 
     init {
         val layoutInflater = LayoutInflater.from(this.context)
         arrow = layoutInflater.inflate(R.layout.navigation_arrow, this, false) as ImageView
         this.addView(arrow)
+    }
+
+    fun setOnExpandListener(listener: (headerView: View) -> Unit) {
+        expandListener = listener
+    }
+
+    fun setOnCollapseListener(listener: (headerView: View) -> Unit) {
+        collapseListener = listener
     }
 
     fun initNavigationHeader(
@@ -268,18 +278,18 @@ class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : Mo
         navigationHeader.setOnClickListener {
             if (isNavigationHeaderCollapsed) {
                 this.setTransition(outAnim, inAnim)
-                expand()
+                expand(it)
             } else {
                 this.setTransition(inAnim, outAnim)
-                collapse(statusBarColor, contentColor)
+                collapse(it, statusBarColor, contentColor)
             }
             this.transitionToEnd()
             isNavigationHeaderCollapsed = !isNavigationHeaderCollapsed
         }
     }
 
-    private fun collapse(statusBarColor: Int?, contentColor: Int?) {
-        arrow?.isActivated = true
+    private fun collapse(view: View, statusBarColor: Int?, contentColor: Int?) {
+        arrow.isActivated = true
         statusBarColor?.let {
             animateStatusBar(window, "statusBarColor", window.statusBarColor, statusBarColor)
         }
@@ -292,13 +302,15 @@ class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : Mo
                 }
             }
         }
+        collapseListener?.let { it(view) }
     }
 
-    private fun expand() {
-        arrow?.isActivated = false
+    private fun expand(view: View) {
+        arrow.isActivated = false
         headerList[0].statusBarColor?.let {
             animateStatusBar(window, "statusBarColor", window.statusBarColor, it)
         }
+        expandListener?.let { it(view) }
     }
 
     private fun animateStatusBar(target: Any, propertyName: String, fromColor: Int, color: Int) {
