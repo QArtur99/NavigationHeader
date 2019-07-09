@@ -21,13 +21,13 @@
 
     <include layout="@layout/content"/>
 
-    <!--<com.artf.sample.NavigationHeaderMotionLayout-->
-            <!--android:id="@+id/navigationHeader"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--tools:context=".MainActivity"-->
-            <!--app:layoutDescription="@xml/motion_scene">-->
+    <com.artf.navigationheader.NavigationHeaderMotionLayout
+            android:id="@+id/navigationHeader"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".MainActivity"
+            app:layoutDescription="@xml/motion_scene">
 
-    <!--</com.artf.sample.NavigationHeaderMotionLayout>-->
+    </com.artf.navigationheader.NavigationHeaderMotionLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

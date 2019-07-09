@@ -1,4 +1,4 @@
-package com.artf.sample
+package com.artf.exampleNavigationHeader
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,10 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.artf.navigationheader.Header
+import com.artf.navigationheader.HeaderView
 import com.artf.navigationheader.NavigationHeaderMotionLayout
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,15 +18,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        window
 
         val layoutInflater = LayoutInflater.from(this)
-        val headerList = mutableListOf<com.artf.navigationheader.HeaderView>()
-        val titleList = mutableListOf<com.artf.navigationheader.Header>().apply {
-            add(com.artf.navigationheader.Header("SERVICES", R.color.header1, R.color.statusBar1, R.color.content1))
-            add(com.artf.navigationheader.Header("AUTO", R.color.header2, R.color.statusBar2, R.color.content2))
-            add(com.artf.navigationheader.Header("JOB", R.color.header3, R.color.statusBar3, R.color.content3))
-            add(com.artf.navigationheader.Header("REALITY", R.color.header4, R.color.statusBar4, R.color.content4))
+        val headerList = mutableListOf<HeaderView>()
+
+        val titleList = mutableListOf<Header>().apply {
+            add(Header("SERVICES", R.color.header1, R.color.statusBar1, R.color.content1))
+            add(Header("AUTO", R.color.header2, R.color.statusBar2, R.color.content2))
+            add(Header("JOB", R.color.header3, R.color.statusBar3, R.color.content3))
+            add(Header("REALITY", R.color.header4, R.color.statusBar4, R.color.content4))
         }
 
         titleList.forEach {
@@ -32,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             headerView.background.clearColorFilter()
             headerView.setBackgroundColor(ContextCompat.getColor(this, it.headerColor!!))
 
-            headerList.add(com.artf.navigationheader.HeaderView(headerView, it.statusBarColor, it.contentColor))
+            headerList.add(HeaderView(headerView, it.statusBarColor, it.contentColor))
         }
 
         val contentList = mutableListOf<View>().apply {

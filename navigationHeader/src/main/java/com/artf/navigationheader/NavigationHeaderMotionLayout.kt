@@ -6,6 +6,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
 import androidx.constraintlayout.motion.widget.MotionLayout
@@ -35,11 +36,10 @@ class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : Mo
     private var arrow: View? = null
     private val window: Window by lazy { activity.window }
 
-//    init {
-//        val field = MotionLayout::class.java.getDeclaredField("mScene")
-//        field.isAccessible = true
-//        val constraintSetMap = field.get(this)
-//    }
+    init {
+        val layoutInflater = LayoutInflater.from(this.context)
+        arrow = layoutInflater.inflate(R.layout.navigation_arrow, this, true)
+    }
 
     fun initNavigationHeader(
         activity: Activity,
@@ -48,8 +48,19 @@ class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : Mo
     ) {
         this.activity = activity
         addNavigationHeader(headerList)
+        addArrow()
         this.contentList = contentList
         buildMotionScene()
+    }
+
+    private fun addArrow() {
+        val constraintSet = ConstraintSet()
+        constraintSet.clone(this)
+        headerList[0].headerView
+        val constrain = constraintSet.getParameters(arrow!!.id)
+        constrain.layout.bottomToBottom = headerList[0].headerView.id
+        constrain.layout.startToStart = ConstraintSet.PARENT_ID
+        constrain.layout.endToEnd = ConstraintSet.PARENT_ID
     }
 
 
