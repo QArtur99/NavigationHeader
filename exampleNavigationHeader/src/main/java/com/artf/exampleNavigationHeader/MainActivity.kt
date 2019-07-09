@@ -1,5 +1,6 @@
 package com.artf.exampleNavigationHeader
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,10 +33,8 @@ class MainActivity : AppCompatActivity() {
         titleList.forEach {
             val headerView = layoutInflater.inflate(R.layout.header, null)
             headerView.findViewById<TextView>(R.id.title).text = it.title
-            headerView.background.clearColorFilter()
             headerView.setBackgroundColor(ContextCompat.getColor(this, it.headerColor!!))
-
-            headerList.add(HeaderView(headerView, it.statusBarColor, it.contentColor))
+            headerList.add(HeaderView(headerView, it.headerColor, it.statusBarColor, it.contentColor))
         }
 
         val contentList = mutableListOf<View>().apply {
@@ -45,6 +44,8 @@ class MainActivity : AppCompatActivity() {
             add(findViewById(R.id.c4))
         }
 
+        navigationHeader.arrow.setColorFilter(Color.BLACK)
+        navigationHeader.arrow.imageAlpha = 0
         navigationHeader.initNavigationHeader(this, headerList, contentList)
     }
 }

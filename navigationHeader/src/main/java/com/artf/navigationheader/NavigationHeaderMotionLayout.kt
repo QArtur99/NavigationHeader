@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
+import android.widget.ImageView
 import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.constraintlayout.motion.widget.MotionScene
 import androidx.constraintlayout.widget.ConstraintAttribute
@@ -17,7 +18,6 @@ import androidx.core.content.ContextCompat
 
 class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : MotionLayout(context, attrs) {
 
-    //private val motionScene = MotionScene(this)
     private val motionScene by lazy {
         val field = MotionLayout::class.java.getDeclaredField("mScene")
         field.isAccessible = true
@@ -28,17 +28,17 @@ class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : Mo
     private var headerList = mutableListOf<HeaderView>()
     private var cSetList = mutableListOf<ConstraintSet>()
     private var cSetIdList = mutableListOf<Int>()
-    private var transitionList = mutableListOf<MotionScene.Transition>()
     private var isNavigationHeaderCollapsed: Boolean = false
     private var contentList: List<View>? = mutableListOf()
     private val colorEvaluator = ArgbEvaluator()
     private lateinit var activity: Activity
-    private var arrow: View? = null
     private val window: Window by lazy { activity.window }
+    var arrow: ImageView
 
     init {
         val layoutInflater = LayoutInflater.from(this.context)
-        arrow = layoutInflater.inflate(R.layout.navigation_arrow, this, true)
+        arrow = layoutInflater.inflate(R.layout.navigation_arrow, this, false) as ImageView
+        this.addView(arrow)
     }
 
     fun initNavigationHeader(
@@ -47,22 +47,9 @@ class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : Mo
         contentList: List<View>? = null
     ) {
         this.activity = activity
-        addNavigationHeader(headerList)
-        addArrow()
         this.contentList = contentList
-        buildMotionScene()
+        buildMotionScene(headerList)
     }
-
-    private fun addArrow() {
-        val constraintSet = ConstraintSet()
-        constraintSet.clone(this)
-        headerList[0].headerView
-        val constrain = constraintSet.getParameters(arrow!!.id)
-        constrain.layout.bottomToBottom = headerList[0].headerView.id
-        constrain.layout.startToStart = ConstraintSet.PARENT_ID
-        constrain.layout.endToEnd = ConstraintSet.PARENT_ID
-    }
-
 
     private fun addNavigationHeader(headerList: List<HeaderView>) {
         headerList.forEach {
@@ -72,9 +59,26 @@ class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : Mo
         }
     }
 
+    private fun addArrow() {
+        cSetList.forEach {
+            createConstraint(
+                it,
+                arrow.id,
+                ConstraintSet.WRAP_CONTENT,
+                ConstraintSet.WRAP_CONTENT,
+                headerList[0].headerView.id,
+                ConstraintSet.UNSET,
+                ConstraintSet.UNSET,
+                ConstraintSet.UNSET,
+                -1f,
+                30f
+            )
+        }
+    }
+
     private fun createConstraintSets() {
         val constraintSetExpend = ConstraintSet()
-        val elevation = headerList.size.plus(20)
+        val elevation = headerList.size.plus(6)
         for (i in 0 until headerList.size) {
             when (i) {
                 0 -> {
@@ -175,6 +179,7 @@ class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : Mo
             cSetList.add(constraintSetCollapse)
         }
 
+        addArrow()
         cSetList.forEach {
             val constraintSetId = View.generateViewId()
             cSetIdList.add(constraintSetId)
@@ -239,16 +244,16 @@ class NavigationHeaderMotionLayout(context: Context?, attrs: AttributeSet?) : Mo
         this.invalidate()
     }
 
-    fun buildMotionScene() {
+    fun buildMotionScene(headerList: List<HeaderView>) {
+        addNavigationHeader(headerList)
         createConstraintSets()
         createTransitions()
         setHeaderListeners()
-        //this.setTransition(cSetIdList[1], cSetIdList[0])
     }
 
     private fun setHeaderListeners() {
         for (i in 0 until headerList.size) {
-            val (header, statusBarColor, contentColor) = headerList[i]
+            val (header, headerColor, statusBarColor, contentColor) = headerList[i]
             setHeaderListener(header, cSetIdList[i + 1], cSetIdList[0], statusBarColor, contentColor)
         }
     }
