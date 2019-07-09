@@ -28,7 +28,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(path: ':navigationHeader')
+//    implementation project(path: ':navigationHeader')
+    implementation "com.github.QArtur99:NavigationHeader:$version_navigationHeader"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$version_kotlin"
     implementation "androidx.appcompat:appcompat:$version_appcompat"
     implementation "androidx.core:core-ktx:$version_core"
