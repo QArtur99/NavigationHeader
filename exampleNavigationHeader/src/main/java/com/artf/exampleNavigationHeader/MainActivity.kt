@@ -1,19 +1,17 @@
 package com.artf.exampleNavigationHeader
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.artf.navigationheader.Header
 import com.artf.navigationheader.HeaderView
-import com.artf.navigationheader.NavigationHeaderMotionLayout
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content.*
+import kotlinx.android.synthetic.main.header.view.*
 
 class MainActivity : AppCompatActivity() {
-
-    private val navigationHeader by lazy { findViewById<NavigationHeaderMotionLayout>(R.id.navigationHeader) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,20 +40,20 @@ class MainActivity : AppCompatActivity() {
         titleList.forEach {
             val headerView = layoutInflater.inflate(R.layout.header, null)
             headerView.tag = it.title
-            headerView.findViewById<TextView>(R.id.title).text = it.title
+            headerView.title.text = it.title
             headerView.setBackgroundColor(ContextCompat.getColor(this, it.headerColor!!))
             headerList.add(HeaderView(headerView, it.headerColor, it.statusBarColor, it.contentColor))
         }
 
         val contentList = mutableListOf<View>().apply {
-            add(findViewById(R.id.c1))
-            add(findViewById(R.id.c2))
-            add(findViewById(R.id.c3))
-            add(findViewById(R.id.c4))
+            add(c1)
+            add(c2)
+            add(c3)
+            add(c4)
         }
 
-        navigationHeader.arrow.setColorFilter(Color.BLACK)
-        navigationHeader.arrow.imageAlpha = 0
+        //navigationHeader.arrow.setColorFilter(Color.BLACK)
+        //navigationHeader.arrow.setImageDrawable(null)
 
         navigationHeader.setOnCollapseListener {
             when(it.tag){
