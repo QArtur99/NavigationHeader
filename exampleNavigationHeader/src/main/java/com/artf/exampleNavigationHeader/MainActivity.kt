@@ -5,21 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.artf.exampleNavigationHeader.databinding.ActivityMainBinding
-import com.artf.exampleNavigationHeader.databinding.HeaderBinding
 import com.artf.navigationheader.Header
 import com.artf.navigationheader.HeaderView
-
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content.*
+import kotlinx.android.synthetic.main.header.view.*
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        val view: View = binding.root
-        setContentView(view)
+        setContentView(R.layout.activity_main)
 
         val title1 = resources.getString(R.string.header1)
         val title2 = resources.getString(R.string.header2)
@@ -42,24 +38,24 @@ class MainActivity : AppCompatActivity() {
         val layoutInflater = LayoutInflater.from(this)
         val headerList = mutableListOf<HeaderView>()
         titleList.forEach {
-            val headerView = HeaderBinding.inflate(layoutInflater)
-            headerView.root.tag = it.title
+            val headerView = layoutInflater.inflate(R.layout.header, null)
+            headerView.tag = it.title
             headerView.title.text = it.title
-            headerView.root.setBackgroundColor(ContextCompat.getColor(this, it.headerColor!!))
-            headerList.add(HeaderView(headerView.root, it.headerColor, it.statusBarColor, it.contentColor))
+            headerView.setBackgroundColor(ContextCompat.getColor(this, it.headerColor!!))
+            headerList.add(HeaderView(headerView, it.headerColor, it.statusBarColor, it.contentColor))
         }
 
         val contentList = mutableListOf<View>().apply {
-            add(binding.content.c1)
-            add(binding.content.c2)
-            add(binding.content.c3)
-            add(binding.content.c4)
+            add(c1)
+            add(c2)
+            add(c3)
+            add(c4)
         }
 
-//        navigationHeader.arrow.setColorFilter(Color.BLACK)
-//        navigationHeader.arrow.setImageDrawable(null)
+        //navigationHeader.arrow.setColorFilter(Color.BLACK)
+        //navigationHeader.arrow.setImageDrawable(null)
 
-        binding.navigationHeader.setOnCollapseListener {
+        navigationHeader.setOnCollapseListener {
             when(it.tag){
                 title1 -> {}
                 title2 -> {}
@@ -68,6 +64,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        binding.navigationHeader.initNavigationHeader(this, headerList, contentList)
+        navigationHeader.initNavigationHeader(this, headerList, contentList)
     }
 }

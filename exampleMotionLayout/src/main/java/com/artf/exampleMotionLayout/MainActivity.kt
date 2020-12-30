@@ -7,8 +7,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.artf.exampleMotionLayout.databinding.ActivityMainBinding
-
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content.*
+import kotlinx.android.synthetic.main.navigation_header.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,18 +17,9 @@ class MainActivity : AppCompatActivity() {
     private var contentList = mutableListOf<View>()
     private var isMenuCollapsed: Boolean = false
 
-    private lateinit var binding: ActivityMainBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        val view: View = binding.root
-        setContentView(view)
-
-        val h1 = binding.motionLayout.h1
-        val h2 = binding.motionLayout.h2
-        val h3 = binding.motionLayout.h3
-        val h4 = binding.motionLayout.h4
+        setContentView(R.layout.activity_main)
 
         setHeaderListener(h1, R.id.s2, R.id.s1, R.color.statusBar1, R.color.content1)
         setHeaderListener(h2, R.id.s3, R.id.s1, R.color.statusBar2, R.color.content2)
@@ -35,10 +27,10 @@ class MainActivity : AppCompatActivity() {
         setHeaderListener(h4, R.id.s5, R.id.s1, R.color.statusBar4, R.color.content4)
 
         contentList.apply {
-            add(binding.content.c1)
-            add(binding.content.c2)
-            add(binding.content.c3)
-            add(binding.content.c4)
+            add(c1)
+            add(c2)
+            add(c3)
+            add(c4)
         }
     }
 
@@ -51,19 +43,19 @@ class MainActivity : AppCompatActivity() {
     ) {
         navigationHeader.setOnClickListener {
             if (isMenuCollapsed) {
-                binding.motionLayout.motionLayout.setTransition(outAnim, inAnim)
+                motionLayout.setTransition(outAnim, inAnim)
                 expand()
             } else {
-                binding.motionLayout.motionLayout.setTransition(inAnim, outAnim)
+                motionLayout.setTransition(inAnim, outAnim)
                 collapse(statusBarColor, contentColor)
             }
-            binding.motionLayout.motionLayout.transitionToEnd()
+            motionLayout.transitionToEnd()
             isMenuCollapsed = !isMenuCollapsed
         }
     }
 
     private fun collapse(statusBarColor: Int, contentColor: Int) {
-        binding.motionLayout.arrow.isActivated = true
+        arrow?.isActivated = true
         animateStatusBar(window, "statusBarColor", window.statusBarColor, statusBarColor)
         for (view in contentList) {
             val colorDrawable = view.background as ColorDrawable
@@ -72,7 +64,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun expand() {
-        binding.motionLayout.arrow.isActivated = false
+        arrow?.isActivated = false
         animateStatusBar(window, "statusBarColor", window.statusBarColor, R.color.statusBar1)
     }
 
