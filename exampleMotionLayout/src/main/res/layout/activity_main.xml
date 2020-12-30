@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/motion_container"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutDescription="@xml/motion_scene"
-        tools:context="com.artf.exampleMotionLayout.MainActivity">
+        tools:context="com.artf.exampleMotionLayout.MainActivity"
+        app:layoutDescription="@xml/motion_scene">
 
-    <include
-            android:id="@+id/content"
-            layout="@layout/content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+    <include layout="@layout/content"/>
 
-    <include
+    <androidx.constraintlayout.motion.widget.MotionLayout
             android:id="@+id/motionLayout"
-            layout="@layout/navigation_header"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:layoutDescription="@xml/motion_scene">
+
+        <include layout="@layout/navigation_header"/>
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

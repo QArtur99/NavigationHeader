@@ -6,7 +6,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:alpha="0"
-        app:tint="#ffffff"
+        android:tint="#ffffff"
         android:elevation="30dp"
         android:rotation="90"
         android:stateListAnimator="@animator/fade_in"

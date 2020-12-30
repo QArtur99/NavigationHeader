@@ -383,9 +383,4 @@ class NavigationHeaderLayout @JvmOverloads constructor(
             }
         }
     }
-
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        this.setTransition(cSetIdList[0], cSetIdList[1])
-    }
 }
