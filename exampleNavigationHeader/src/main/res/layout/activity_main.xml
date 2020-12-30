@@ -9,7 +9,10 @@
         tools:context=".MainActivity"
         app:layoutDescription="@xml/motion_scene">
 
-    <include layout="@layout/content"/>
+    <include android:id="@+id/content"
+            layout="@layout/content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     <com.artf.navigationheader.NavigationHeaderLayout
             android:id="@+id/navigationHeader"
