@@ -8,7 +8,7 @@ buildscript {
         version_gradle = '4.1.1'
         version_kotlin = "1.4.21"
         version_material = '1.2.1'
-        version_navigationHeader = '1.0.0'
+        version_navigationHeader = '1.0.1'
     }
     repositories {
         google()

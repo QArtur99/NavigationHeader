@@ -22,7 +22,7 @@ Add the dependency in app build.gradle:
 ```
 	dependencies {
 	        ...
-	        implementation 'com.github.QArtur99:NavigationHeader:1.0.0'
+	        implementation 'com.github.QArtur99:NavigationHeader:1.0.1'
 	}
 ```
 
