@@ -52,8 +52,8 @@ class MainActivity : AppCompatActivity() {
             add(c4)
         }
 
-//        navigationHeader.arrow.setColorFilter(Color.BLACK)
-//        navigationHeader.arrow.setImageDrawable(null)
+        //navigationHeader.arrow.setColorFilter(Color.BLACK)
+        //navigationHeader.arrow.setImageDrawable(null)
 
         navigationHeader.setOnCollapseListener {
             when(it.tag){
